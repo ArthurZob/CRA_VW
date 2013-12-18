@@ -7,6 +7,7 @@ define([
 	var ProjectView = Backbone.View.extend({
 
 		events: {
+			'click .delete-project': 'removeProject',
 			'click .add-task': 'addTask'
 		},
 
@@ -16,17 +17,15 @@ define([
 		},
 
 		returnView: function() {
-			return (this.template(this.attributes));
+			$(this.el).html(this.template(this.model.toJSON()));
+			return this.$el;
 		},
 
 		removeProject: function(){
-			debugger
-			$('.' + this.attributes.name).remove();
-			this.remove();
+			this.model.destroy();
 		},
 
 		addTask: function(){
-			debugger
 			this.attributes.tasks.add({
 	    								'name': 'tache',
 	    								'timeSpent': 0,

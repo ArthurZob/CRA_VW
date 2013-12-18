@@ -9,7 +9,6 @@ define([
 	var ProjectsListView = Backbone.View.extend({
 
 		events: {
-			'click .delete-project': 'removeProject'
 		},
 
 		el: '#task-list',
@@ -55,22 +54,17 @@ define([
 		},
 
 		onAdd: function(_model){
-			var view = new ProjectView(_model);
+			var view = new ProjectView({model : _model});
 			$(this.el).prepend(view.returnView());
 		},
 
 		onRemove: function(_model){
 			$('.' + _model.attributes.name).remove();
+    		$('.project-button.' + _model.attributes.name.toLowerCase()).removeClass('selected');
 		},
 
 		onReset: function(){
 			this.$el.empty();
-		},
-
-		removeProject: function(evt){
-			var name = $('.project-name', evt.currentTarget.parentNode).html();
-			this.projects.remove(this.projects.findWhere({'name': name}));
-    		$('.project-button.' + name.split(' ')[0].toLowerCase()).removeClass('selected');
 		},
 
 		toString: function(){
