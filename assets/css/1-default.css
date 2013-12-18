@@ -1,0 +1,213 @@
+@font-face {
+	font-family: 'Dense';
+	src: url("fonts/Dense-Regular.otf");
+	font-weight: normal;
+	font-style: normal;
+}
+
+*, * focus {
+	outline: none;
+
+	 -moz-touch-callout: none;
+	 -webkit-touch-callout: none;
+
+	 -webkit-user-select: none;
+	 -moz-user-select: none;
+	 -ms-user-select: none;
+	 user-select: none;
+}
+
+body{
+	text-align: center;
+	font-family: 'Dense';
+	font-size: 20px;
+}
+
+#main{
+	display: inline-block;
+	width: 800px;
+	text-align: left;
+}
+
+.title{
+	font-size: 60px;
+	text-align: center;
+	margin: 20px;
+}
+
+#corps{
+	font-family: 'Dense';
+	font-size: 20px;
+	width: 800px;
+	height: 600px;
+	box-sizing: border-box;
+}
+
+.label-mail{
+	display: inline-block;
+	width: 15%;
+}
+
+.input-mail{
+	display: inline-block;
+	width: 85%;
+	font-family: 'Dense';
+	font-size: 20px;
+	box-sizing: border-box;
+	box-shadow: 0 1px 0 #fff;
+	padding: 2px 7px;
+	border: 1px solid #d7d7d7;
+	background: #fdfdfd;
+}
+
+.mail{
+	border: 1px solid #c3c3c3;
+	box-shadow: inset 0 1px 2px #fff;
+	text-shadow: none;
+	background: #f8f8f8;
+	background: linear-gradient(top, #f8f8f8 0%,#e8e8e8 100%);
+	padding: 6px 14px;
+	font-size: 20px;
+	display: inline-block;
+	line-height: 14px;
+	border-radius: 2px;
+	color: #222222;
+	cursor: pointer;
+	margin: 5px 5px 5px 0;
+}
+
+.mail.selected{
+	transition: box-shadow 0.05s ease-in-out;
+	color: #f8f8f8;
+	background: #a9a9a9;
+	background: linear-gradient(top, #fafafa 0%,#e5e5e5 100%);
+}
+
+.project{
+	border: 1px solid #c3c3c3;
+	box-shadow: inset 0 1px 2px #fff;
+	text-shadow: none;
+	background: #f8f8f8;
+	background: linear-gradient(top, #f8f8f8 0%,#e8e8e8 100%);
+	padding: 6px 14px;
+	font-size: 20px;
+	display: inline-block;
+	line-height: 14px;
+	border-radius: 2px;
+	color: #222222;
+	cursor: pointer;
+	margin: 5px 5px 5px 0;
+}
+
+.project.selected{
+	transition: box-shadow 0.05s ease-in-out;
+	color: #f8f8f8;
+	background: #a9a9a9;
+	background: linear-gradient(top, #fafafa 0%,#e5e5e5 100%);
+}
+
+.clear{
+	background-color: #ff4343;
+}
+
+.button-container{
+	text-align: center;
+}
+
+.validate{
+	width: 150px;
+	text-align: center;
+	display: inline-block;
+	font-size: 20px;
+	color: #fff;
+	text-shadow: 0 -1px #6f6f6f;
+	display: inline-block;
+	line-height: 14px;
+	border-radius: 2px;
+	padding: 7px 15px;
+	border: 1px solid #68a341;
+	box-shadow: 0 1px 2px 0 #a4ca6c inset;
+	background: #96c161;
+	background: linear-gradient(top, #96c161 0%,#609c3d 100%);
+	cursor: pointer;
+}
+
+.validate:hover{
+	background: #609c3d;
+}
+
+.send{
+	width: 150px;
+	text-align: center;
+	display: inline-block;
+	font-size: 20px;
+	color: #fff;
+	text-shadow: 0 -1px #6f6f6f;
+	display: inline-block;
+	line-height: 14px;
+	border-radius: 2px;
+	padding: 7px 15px;
+	border: 1px solid #68a341;
+	box-shadow: 0 1px 2px 0 #a4ca6c inset;
+	background: #96c161;
+	background: linear-gradient(top, #96c161 0%,#609c3d 100%);
+	cursor: pointer;
+	text-decoration: none;
+	display: none;
+}
+
+.send:hover{
+	background: #609c3d;
+}
+
+.task-group{
+	background: #f7f7f7;
+	border: 1px solid #cdcdcd;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	box-shadow: 0 2px 2px -2px #ccc;
+	margin-top: 35px;
+	position: relative;
+}
+
+.task-group-header{
+	border-bottom: 1px solid #cdcdcd;
+	box-shadow: 0 1px 0 #fff;
+	-webkit-box-shadow: 0 1px 0 #fff;
+	-moz-box-shadow: 0 1px 0 #fff;
+	text-shadow: 0 1px #fff;
+	-webkit-border-top-right-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-topleft: 3px;
+	position: relative;
+
+	padding: 3px 10px;
+
+	color: #636363;
+	background: #f8f8f8;
+	background: -moz-linear-gradient(top, #f8f8f8 0%, #e8e8e8 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#e8e8e8));
+	background: -webkit-linear-gradient(top, #f8f8f8 0%,#e8e8e8 100%);
+	background: -o-linear-gradient(top, #f8f8f8 0%,#e8e8e8 100%);
+	background: -ms-linear-gradient(top, #f8f8f8 0%,#e8e8e8 100%);
+	background: linear-gradient(top, #f8f8f8 0%,#e8e8e8 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f8f8', endColorstr='#e8e8e8',GradientType=0 );
+}
+
+.delete-task-group{
+	float: right;
+	background-color: #ff4646;
+	color: white;
+	height: 20px;
+	width: 20px;
+	text-align: center;
+	line-height: 18px;
+	cursor: pointer;
+}
+
+.add-task{
+	cursor: pointer;
+	font-size: 35px;
+}

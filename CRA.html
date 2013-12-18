@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link rel="stylesheet" href="1-default.css" />
+    <script src="jquery-1.10.2.js"></script>
+    <script src="handlebars-v1.1.2.js"></script>
+    <script id="task-group-template" type="text/x-handlebars-template">
+    	{{#each this.projects}}
+    	<div class="task-group">
+    		<div class="task-group-header"><span class="task-group-name">{{this.name}}</span><span class="delete-task-group">x</span></div>
+			<ul class="task-list">
+				{{#each this.tasks}}
+				<li>
+					<span class="task-name" contenteditable=true>{{this.name}}</span>
+					<span class="task-time-spent" contenteditable=true>{{this.timeSpent}}h</span>
+					/
+					<span class="task-time">{{this.time}}h</span>
+					<select class="task-status">
+						<option selected>WIP</option>
+						<option>DONE</option>
+					</select>
+				</li>
+				{{/each}}
+			</ul>
+			<span class="add-task">+</span>
+		</div>
+		{{/each}}
+	</script>
+</head>
+<body>
+	<div id="main" role="main">
+		<p class="title">CRA</p>
+		<span class="label-mail">Envoyer à : </span><input type="text" name="sendto" id="sendto" class="input-mail" value="vdelaval@visiware.com;"><br>
+		<span class="label-mail">Cc : </span><input type="text" name="withcc" id="withcc" class="input-mail"><br>
+		<span class="mail">jbeaussier@visiware.com</span><span class="mail">gblondel@visiware.com</span><span class="mail">mcrusson@visiware.com</span><span class="mail clear">Clear</span>
+		<div id="corps">
+		</div>
+		<div class="project-container">
+			<span class="project">ESPN</span>
+			<span class="project">Equidia</span>
+			<span class="project">M6</span>
+			<span class="project">NFL</span>
+			<span class="project">Divers</span>
+			<span class="project">Alertes / Remarques</span>
+			<span class="project clear">Clear</span>
+		</div>
+		<div class="button-container">
+			<br>
+			<p class="validate">Valider</p>
+			<br>
+			<a class="send">Envoyer</a>
+		</div>		
+	</div>
+
+	<a href="mailto: vdelaval@VISIWARE.com?subject=[CRA]%20JJ/MM/AAAA&body=corps">
+	</a>
+    
+    <script type="text/javascript">
+    	template = Handlebars.compile($("#task-group-template").html());
+
+
+    	$(".validate").on('click', function(){
+    		var  d = new Date();
+    		//$(".send").css('display', 'inline-block');
+
+    		if($('#withcc')[0].value == ""){
+    			window.location.href = 'mailto: ' + $('#sendto')[0].value + '?subject=[CRA]%20' + d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear() + '&body=' + corps;	
+    		}else{
+				window.location.href = 'mailto: ' + $('#sendto')[0].value + '?cc=' + $('#withcc')[0].value +  '&subject=[CRA]%20' + d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear() + '&body=' + corps;	
+    		}    		
+    	})
+
+    	$(".mail").on('click',function(evt){
+			if(evt.currentTarget.innerHTML == 'Clear'){
+    			$('#withcc').val('');
+    			$('.mail').removeClass('selected');
+    		}else{
+    			if($(evt.currentTarget).hasClass('selected')){
+	    			$(evt.currentTarget).removeClass('selected');
+	    			$('#withcc').val($('#withcc').val().replace(evt.currentTarget.innerHTML + ';', ''));
+	    			$('#withcc').val($('#withcc').val().replace(evt.currentTarget.innerHTML, ''));
+	    		}else{
+	    			if($('#withcc').val() == ""){
+						$('#withcc').val(evt.currentTarget.innerHTML);
+		    		}else{
+		    			$('#withcc').val($('#withcc').val() + ';' + evt.currentTarget.innerHTML);
+		    		}
+	    			$(evt.currentTarget).addClass('selected');
+	    		}
+    		}    		
+    	});
+
+    	$(".project").on('click',function(evt){
+    		if(evt.currentTarget.innerHTML == 'Clear'){
+    			corps.projects = [];
+    			$('.project').removeClass('selected');
+    		}else{
+	    		if($(evt.currentTarget).hasClass('selected')){
+	    			$(evt.currentTarget).removeClass('selected');
+	    			corps.projects = $.grep(corps.projects, function(n, i){
+	    				return n.name != evt.currentTarget.innerHTML;
+	    			});
+	    		}else{
+    				corps.projects.push({name : evt.currentTarget.innerHTML, tasks : [{name: "Tâche", timeSpent: 0, time: 0, status: "WIP"}]});
+	    			$(evt.currentTarget).addClass('selected');
+	    		}
+    		}
+    		render();
+    	});
+
+    	function loadFromLocalStorage(){
+    		if(localStorage['projects'] != undefined){
+    			corps.projects = JSON.parse(localStorage['projects']);
+    			render();
+    		}
+    		else{
+    			corps = {projects: []};
+    		}
+
+    		if(localStorage['cc'] != undefined){
+    			$('#withcc').val(localStorage['cc']);
+    		}
+    	}
+
+	    var validNavigation = false;
+	 
+		function wireUpEvents() {
+			function goodbye(e) {
+				localStorage['projects'] = JSON.stringify(corps.projects);
+				localStorage['cc'] = $('#withcc').val();
+			}
+			window.onbeforeunload=goodbye;
+			
+			$(document).bind('keypress', function(e) {
+				if (e.keyCode == 116){
+					validNavigation = true;
+				}
+			}); 
+		}
+
+		function addTask(evt){
+			$.grep(corps.projects, function(n, i){
+				return n.name == $(evt.currentTarget.parentElement).find('.task-group-name').text();
+			})[0].tasks.push({name: "Tâche", timeSpent: 0, time: 0, status: "WIP"});
+			render();
+    	}
+
+		function deleteProject(evt){
+			corps.projects = $.grep(corps.projects, function(n, i){
+				if( n.name != $(evt.currentTarget.parentElement).find('.task-group-name').text() ){
+					return n;
+				}
+			});
+			render();
+    	}
+
+    	function render(){
+    		$('.project').removeClass('selected');
+
+			$.each(corps.projects, function(index, value){
+				$($.grep($('.project'), function(n, i){
+					if(n.innerHTML == value.name)
+						return n;
+				})[0]).addClass('selected');
+			});
+    		$('#corps').html(template(corps));
+    		$(".add-task").on('click', addTask);
+    		$(".delete-task-group").on('click', deleteProject);
+    	}
+	 
+		$(document).ready(function() {
+			loadFromLocalStorage();
+			wireUpEvents();
+		});
+	</script>
+</body>
+</html>
+
