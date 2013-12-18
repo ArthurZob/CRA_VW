@@ -10,7 +10,8 @@ define([
 		events: {
 			'click .mail': 'toggleCC',
 			'click .project-button': 'toggleProject',
-			'click .validate': 'sendCra'
+			'click .validate': 'sendCra',
+			'click .save': 'save'
 		},
 
 		el: 'body',
@@ -19,15 +20,18 @@ define([
 			var self = this;
 			this.template = Handlebars.compile(tpl);
 			this.render();
+			this.wireUpEvents();
+			this.load();
 		},
 
 		render: function() {
 			this.$el.html(this.template());
 	    	var  d = new Date();
 	    	$('.title').html('CRA du ' + d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear());
-			this.taskList = new ProjectsListView();
+			this.projectsList = new ProjectsListView();
 		},
 
+		// Todo : Create Destinataire View et mettre ca dedans avec la vue et tout.
 		toggleCC: function(evt){
 			if(evt.currentTarget.innerHTML == 'Clear'){
     			$('#withcc').val('');
@@ -48,19 +52,35 @@ define([
     		}    	
 		},
 
+		// TODO Move to ProjectsListView.js
 		toggleProject: function(evt){
 			var cible = {
 				'name': evt.currentTarget.innerHTML,
 				'isSelected': $(evt.currentTarget).hasClass('selected'),
 				'selector': $(evt.currentTarget)
 			}
-			this.taskList.toggleProject(cible);
+			this.projectsList.toggleProject(cible);
+		},
+
+		wireUpEvents : function() {			
+			//window.onbeforeunload = this.save;
+		},
+
+		save: function(){
+			localStorage['projects'] = JSON.stringify(this.projectsList.saveCollection());
+			localStorage['cc'] = $('#withcc').val();
+		},
+
+		load: function(){
+			if(localStorage['projects'] != undefined){
+				this.projectsList.setCollection(JSON.parse(localStorage['projects']));	
+			}			
 		},
 
 		sendCra: function(){
 			var receiver = $('#sendto')[0].value;
 			var reveiverCopy = $('#withcc')[0].value;
-			var corps = this.taskList.toString();
+			var corps = this.projectsList.toString();
 		}
 	});
 

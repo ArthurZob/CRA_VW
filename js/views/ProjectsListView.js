@@ -29,14 +29,12 @@ define([
     			$('.project-button').removeClass('selected');
     		}else{
 	    		if(cible.isSelected){
-	    			cible.selector.removeClass('selected');
 	    			/*this.projects = $.grep(corps.projects, function(n, i){
 	    				return n.name != evt.currentTarget.innerHTML;
 	    			});*/
     				this.projects.remove(this.projects.findWhere({'name': cible.name}));
 	    		}else{
     				//this.projects.push({name : evt.currentTarget.innerHTML, tasks : [{name: "Tâche", timeSpent: 0, time: 0, status: "WIP"}]});
-	    			cible.selector.addClass('selected');
 	    			var model = new ProjectModel({
 	    				'name': cible.name,
 	    				'tasks': [
@@ -54,13 +52,16 @@ define([
 		},
 
 		onAdd: function(_model){
+			var name = _model.attributes.name.split(' ')[0].toLowerCase();
 			var view = new ProjectView({model : _model});
 			$(this.el).prepend(view.returnView());
+    		$('.project-button.' + name).addClass('selected');
 		},
 
 		onRemove: function(_model){
-			$('.' + _model.attributes.name).remove();
-    		$('.project-button.' + _model.attributes.name.toLowerCase()).removeClass('selected');
+			var name = _model.attributes.name.split(' ')[0].toLowerCase();
+			$('.project.' + _model.attributes.name).remove();
+    		$('.project-button.' + name).removeClass('selected');
 		},
 
 		onReset: function(){
@@ -69,7 +70,18 @@ define([
 
 		toString: function(){
 			return 'toto';
+		},
+
+		saveCollection: function(){
+			return this.projects.toJSON();
+		},
+
+		setCollection: function(_collection){
+			for(var i = 0; i < _collection.length; i++){
+				this.projects.push(_collection[i]);
+			}				
 		}
+
 	});
 
 	return ProjectsListView;
