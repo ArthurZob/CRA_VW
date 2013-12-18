@@ -9,6 +9,7 @@ define([
 	var ProjectsListView = Backbone.View.extend({
 
 		events: {
+			'click .delete-project': 'removeProject'
 		},
 
 		el: '#task-list',
@@ -26,7 +27,7 @@ define([
 		toggleProject: function(cible){
 			if(cible.name == 'Clear'){
     			this.projects.reset();
-    			$('.project').removeClass('selected');
+    			$('.project-button').removeClass('selected');
     		}else{
 	    		if(cible.isSelected){
 	    			cible.selector.removeClass('selected');
@@ -64,6 +65,12 @@ define([
 
 		onReset: function(){
 			this.$el.empty();
+		},
+
+		removeProject: function(evt){
+			var name = $('.project-name', evt.currentTarget.parentNode).html();
+			this.projects.remove(this.projects.findWhere({'name': name}));
+    		$('.project-button.' + name.split(' ')[0].toLowerCase()).removeClass('selected');
 		},
 
 		toString: function(){

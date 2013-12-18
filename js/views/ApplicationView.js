@@ -9,7 +9,7 @@ define([
 
 		events: {
 			'click .mail': 'toggleCC',
-			'click .project': 'toggleProject',
+			'click .project-button': 'toggleProject',
 			'click .validate': 'sendCra'
 		},
 

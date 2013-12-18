@@ -7,17 +7,32 @@ define([
 	var ProjectView = Backbone.View.extend({
 
 		events: {
-			'click .mail': 'toggleCC'
+			'click .add-task': 'addTask'
 		},
 
 		initialize: function() {
-			var self = this;
 			this.template = Handlebars.compile(tpl);
 			this.render();
 		},
 
 		returnView: function() {
 			return (this.template(this.attributes));
+		},
+
+		removeProject: function(){
+			debugger
+			$('.' + this.attributes.name).remove();
+			this.remove();
+		},
+
+		addTask: function(){
+			debugger
+			this.attributes.tasks.add({
+	    								'name': 'tache',
+	    								'timeSpent': 0,
+	    								'timeNeeded': 0,
+	    								'status': 'WIP'
+	    							});
 		}
 	});
 
