@@ -20,11 +20,12 @@ define([
 			this.projects = new ProjectsCollection();
 			this.projects.on('add', this.onAdd, this);
 			this.projects.on('remove', this.onRemove, this);
+			this.projects.on('reset', this.onReset, this);
 		},
 
 		toggleProject: function(cible){
 			if(cible.name == 'Clear'){
-    			this.projects = [];
+    			this.projects.reset();
     			$('.project').removeClass('selected');
     		}else{
 	    		if(cible.isSelected){
@@ -47,7 +48,6 @@ define([
 	    							}
 	    						]
 	    			});
-	    			debugger
 	    			this.projects.add(model);
 	    		}
     		}
@@ -59,7 +59,11 @@ define([
 		},
 
 		onRemove: function(_model){
-			debugger
+			$('.' + _model.attributes.name).remove();
+		},
+
+		onReset: function(){
+			this.$el.empty();
 		},
 
 		toString: function(){
