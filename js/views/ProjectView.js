@@ -9,19 +9,23 @@ define([
 		events: {
 			'click .delete-project': 'removeProject',
 			'click .add-task': 'addTask',
+			'click .delete-task': 'deleteTask',
 			'blur span': 'updateModel',
 			'change .task-status': 'updateModel'
 		},
 
 		initialize: function() {
 			this.template = Handlebars.compile(tpl);
-			this.render();
 		},
 
 		returnView: function() {
 			$(this.el).html(this.template(this.model.toJSON()));
 			
 			return this.$el;
+		},
+
+		render: function(){
+			$($('.' + this.model.get('name'))[0].parentNode).html(this.template(this.model.toJSON()));
 		},
 
 		removeProject: function(){
@@ -37,6 +41,13 @@ define([
 	    								'status': 'WIP',
 	    								'id': id
 	    							});
+			this.render();
+		},
+
+		deleteTask: function(evt){
+			var tasks = this.model.get('tasks');
+		    tasks.splice(evt.currentTarget.parentNode.getAttribute('num'), 1);
+			this.render();
 		},
 
 		updateModel: function(evt){

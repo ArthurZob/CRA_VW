@@ -79,7 +79,7 @@ define([
 
 			if($('.save').hasClass('not-saved')){
 				var  d = new Date();
-	    		$('.save').html('Sauvegardé à : ' + d.getHours() + 'h' + d.getMinutes() + 'm' + d.getSeconds() + 's');
+	    		$('.save').html('Sauvegardé à ' + d.getHours() + 'h' + d.getMinutes() + 'm' + d.getSeconds() + 's');
 				$('.save').removeClass('not-saved');		
 			}
 		},

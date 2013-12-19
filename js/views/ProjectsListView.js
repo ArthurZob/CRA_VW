@@ -67,7 +67,7 @@ define([
 		},
 
 		onChange: function(_model){
-			debugger
+			
 		},
 
 		onReset: function(){
