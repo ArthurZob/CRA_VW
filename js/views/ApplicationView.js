@@ -11,7 +11,9 @@ define([
 			'click .mail': 'toggleCC',
 			'click .project-button': 'toggleProject',
 			'click .validate': 'sendCra',
-			'click .save': 'save'
+			'click .save': 'save',
+			'blur span': 'changeSaveStatus',
+			'change .task-status': 'changeSaveStatus'
 		},
 
 		el: 'body',
@@ -27,7 +29,7 @@ define([
 		render: function() {
 			this.$el.html(this.template());
 	    	var  d = new Date();
-	    	$('.title').html('CRA du ' + d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear());
+	    	$('.title').html('[CRA] du ' + d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear());
 			this.projectsList = new ProjectsListView();
 		},
 
@@ -66,9 +68,20 @@ define([
 			window.onbeforeunload = this.save;
 		},
 
+		changeSaveStatus: function(){
+			$('.save').html('Sauvegarder');
+			$('.save').addClass('not-saved');
+		},
+
 		save: function(){
 			localStorage['projects'] = JSON.stringify(this.projectsList.saveCollection());
 			localStorage['cc'] = $('#withcc').val();
+
+			if($('.save').hasClass('not-saved')){
+				var  d = new Date();
+	    		$('.save').html('Sauvegardé à : ' + d.getHours() + 'h' + d.getMinutes() + 'm' + d.getSeconds() + 's');
+				$('.save').removeClass('not-saved');		
+			}
 		},
 
 		load: function(){

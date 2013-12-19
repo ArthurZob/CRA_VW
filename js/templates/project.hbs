@@ -7,8 +7,13 @@
 			<span class="task-time-spent" contenteditable=true>{{this.timeSpent}}</span>h/
 			<span class="task-time" contenteditable=true>{{this.timeNeeded}}</span>h
 			<select class="task-status">
-				<option selected>WIP</option>
-				<option>DONE</option>
+				{{#ifCond this.status '==' "WIP" }}
+					<option selected>WIP</option>
+					<option>DONE</option>				
+				{{else}}				
+					<option>WIP</option>
+					<option selected>DONE</option>
+				{{/ifCond}}
 			</select>
 		</li>
 		{{/each}}
