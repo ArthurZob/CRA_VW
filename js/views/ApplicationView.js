@@ -65,7 +65,7 @@ define([
 		},
 
 		wireUpEvents : function() {			
-			window.onbeforeunload = this.save;
+			window.onbeforeunload = _.bind(this.save, this);
 		},
 
 		changeSaveStatus: function(){
