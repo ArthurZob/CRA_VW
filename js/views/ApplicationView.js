@@ -63,7 +63,7 @@ define([
 		},
 
 		wireUpEvents : function() {			
-			//window.onbeforeunload = this.save;
+			window.onbeforeunload = this.save;
 		},
 
 		save: function(){
@@ -74,13 +74,24 @@ define([
 		load: function(){
 			if(localStorage['projects'] != undefined){
 				this.projectsList.setCollection(JSON.parse(localStorage['projects']));	
-			}			
+			}
+			if(localStorage['cc'] != undefined){
+				$('#withcc').val(localStorage['cc']);
+			}
 		},
 
 		sendCra: function(){
 			var receiver = $('#sendto')[0].value;
 			var reveiverCopy = $('#withcc')[0].value;
+			var subject = $('.title')[0].innerText;
 			var corps = this.projectsList.toString();
+
+			if(reveiverCopy != ""){
+				reveiverCopy = "cc=" + reveiverCopy + "&";
+			}
+
+			window.location.href = 'mailto: ' + receiver + "?" + reveiverCopy + 'subject=' + subject + '&body=' + corps;	
+
 		}
 	});
 

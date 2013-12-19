@@ -2,11 +2,10 @@
 	<div class="project-header"><span class="project-name">{{this.name}}</span><span class="delete-project">x</span></div>
 	<ul class="task-list">
 		{{#each this.tasks}}
-		<li>
+		<li class="task" num="{{@index}}">
 			<span class="task-name" contenteditable=true>{{this.name}}</span>
-			<span class="task-time-spent" contenteditable=true>{{this.timeSpent}}h</span>
-			/
-			<span class="task-time">{{this.timeNeeded}}h</span>
+			<span class="task-time-spent" contenteditable=true>{{this.timeSpent}}</span>h/
+			<span class="task-time" contenteditable=true>{{this.timeNeeded}}</span>h
 			<select class="task-status">
 				<option selected>WIP</option>
 				<option>DONE</option>

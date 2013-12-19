@@ -20,6 +20,7 @@ define([
 			this.projects = new ProjectsCollection();
 			this.projects.on('add', this.onAdd, this);
 			this.projects.on('remove', this.onRemove, this);
+			this.projects.on('change', this.onChange, this);
 			this.projects.on('reset', this.onReset, this);
 		},
 
@@ -42,7 +43,8 @@ define([
 	    								'name': 'tache',
 	    								'timeSpent': 0,
 	    								'timeNeeded': 0,
-	    								'status': 'WIP'
+	    								'status': 'WIP',
+	    								'id' : '0' 
 	    							}
 	    						]
 	    			});
@@ -64,12 +66,27 @@ define([
     		$('.project-button.' + name).removeClass('selected');
 		},
 
+		onChange: function(_model){
+			debugger
+		},
+
 		onReset: function(){
 			this.$el.empty();
 		},
 
 		toString: function(){
-			return 'toto';
+			var corps = "";
+
+			for(var i = 0; i < this.projects.length; i++){
+				var proj = this.projects.models[i];
+				corps += proj.get('name') + "%20:%0D%0A"
+				for(var j = 0; j < proj.get('tasks').length; j++){
+					var task = proj.get('tasks')[j];
+					corps += '-%20' + task.name + "%20(" + task.timeSpent + 'h/' + task.timeNeeded + ')%20[' + task.status + ']%0D%0A';
+				}
+				corps += "%0D%0A";
+			}
+			return corps;
 		},
 
 		saveCollection: function(){
