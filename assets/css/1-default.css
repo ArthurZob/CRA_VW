@@ -40,6 +40,7 @@ body{
 }
 
 .save{
+	border: 1px solid #fff;
 	width: 150px;
 	text-align: center;
 	display: inline-block;

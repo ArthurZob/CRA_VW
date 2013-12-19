@@ -11,7 +11,8 @@ define([
 			'click .add-task': 'addTask',
 			'click .delete-task': 'deleteTask',
 			'blur span': 'updateModel',
-			'change .task-status': 'updateModel'
+			'change .task-status': 'updateModel',
+			'focus span': 'addVisibility'
 		},
 
 		initialize: function() {
@@ -30,6 +31,10 @@ define([
 
 		removeProject: function(){
 			this.model.destroy();
+		},
+
+		addVisibility: function(evt){
+			$(evt.currentTarget).addClass('focused');
 		},
 
 		addTask: function(){
@@ -51,6 +56,8 @@ define([
 		},
 
 		updateModel: function(evt){
+			$(evt.currentTarget).removeClass('focused');
+
 			var tasks = this.model.get('tasks');
 			currentTask = tasks[evt.currentTarget.parentNode.getAttribute('num')]
 

@@ -13,7 +13,9 @@ define([
 			'click .validate': 'sendCra',
 			'click .save': 'save',
 			'blur span': 'changeSaveStatus',
-			'change .task-status': 'changeSaveStatus'
+			'change .task-status': 'changeSaveStatus',
+			'click .delete-project': 'changeSaveStatus',
+			'click .add-task': 'changeSaveStatus'
 		},
 
 		el: 'body',
@@ -52,6 +54,7 @@ define([
 	    			$(evt.currentTarget).addClass('selected');
 	    		}
     		}    	
+			this.changeSaveStatus();
 		},
 
 		// TODO Move to ProjectsListView.js
@@ -62,6 +65,7 @@ define([
 				'selector': $(evt.currentTarget)
 			}
 			this.projectsList.toggleProject(cible);
+			this.changeSaveStatus();
 		},
 
 		wireUpEvents : function() {			
